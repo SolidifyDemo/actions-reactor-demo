@@ -82,8 +82,6 @@ jobs:
     with:
       environment: 'test'
       package-path: ${{needs.build.outputs.package_name }}
-    secrets:
-      AZURE_PUBLISH_PROFILE: ${{ secrets.AZURE_PUBLISH_PROFILE }}
 
   deploy_prod:
     needs: 
