@@ -49,6 +49,7 @@ jobs:
         with:
           name: ${{env.PACKAGE_NAME}}
           path: ${{env.AZURE_WEBAPP_PACKAGE_PATH }}/${{env.PACKAGE_NAME}}.zip
+          if-no-files-found: error
 
   publish:
     needs: build
