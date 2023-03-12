@@ -54,7 +54,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               body: `
-              👋 Thanks for opening this issue to create the repository '${{ steps.generate_variables.outputs.repository }}'!
+              👋 Thanks for opening this issue to create the repository '${{ steps.generate_variables.outputs.repository }}-${{ steps.generate_variables.outputs.repoType }}'!
               Hang on for a moment while we do the checks and you will be notified in this issue when everything is ready.
               `
             })
@@ -84,7 +84,7 @@ jobs:
        
             github.rest.repos.createInOrg({
               org: '${{needs.prepare.outputs.organization}}',
-              name: '${{needs.prepare.outputs.repository}}-${{needs.prepare.outputs.output.repoType}}',
+              name: '${{needs.prepare.outputs.repository}}-${{needs.prepare.outputs.repoType}}',
             });
       
                
@@ -96,7 +96,7 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: '👋 Repository: ${{ needs.prepare.outputs.repository }} has been created! '
+              body: '👋 Repository: `[${{ needs.prepare.outputs.repository }}-${{ needs.prepare.outputs.repository}}](${context.payload.owner.html_url}/${{ needs.prepare.outputs.repository }}-${{ needs.prepare.outputs.repository}})` has been created! '
             })
             
       - if: ${{ failure() }}
