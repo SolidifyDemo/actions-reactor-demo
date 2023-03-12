@@ -33,6 +33,7 @@ jobs:
         run: |
          echo "app name  ${{ vars.APP_NAME }}"
          echo "env ${{ inputs.environment }}"
+         echo "packagepath ${{ inputs.package-path  }}"
      
       - name: Download from artifacts
         uses: actions/download-artifact@v2
