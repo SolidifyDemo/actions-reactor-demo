@@ -98,6 +98,14 @@ jobs:
               repo: context.repo.repo,
               body: '👋 Repository: `[${{ needs.prepare.outputs.repository }}-${{ needs.prepare.outputs.repository}}](${context.payload.owner.html_url}/${{ needs.prepare.outputs.repository }}-${{ needs.prepare.outputs.repository}})` has been created! '
             })
+             github.rest.issues.update({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'closed'
+            })
+
+            
             
       - if: ${{ failure() }}
         name: Report failed to create repo
