@@ -25,12 +25,16 @@ jobs:
     env:
       AZURE_APP_NAME: ${{ inputs.app-name }}
 
-    environment: ${ { inputs.environment } }
+    environment: 
+      name: ${{ inputs.environment }}
 
     steps:
       
       - name: Echo environment vars
-        run: echo "app name  ${{ vars.APP_NAME}}"
+        run: |
+         echo "app name  ${{ vars.APP_NAME}}"
+         echo "env ${{ inputs.environment }}"
+         echo "inputs.app-name  ${{ inputs.app-name }}"
      
       - name: Download from artifacts
         uses: actions/download-artifact@v2
