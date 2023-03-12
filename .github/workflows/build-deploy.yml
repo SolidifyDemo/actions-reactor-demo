@@ -45,7 +45,7 @@ jobs:
         run: zip -r ${{env.PACKAGE_NAME}}.zip ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/${{env.PACKAGE_NAME}}
       
       - name: print out contents of webapp folder
-        run: ls -R ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/${{env.PACKAGE_NAME}}
+        run: ls -R ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.1
