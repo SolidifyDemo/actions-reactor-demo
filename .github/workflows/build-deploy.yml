@@ -72,27 +72,23 @@ jobs:
 
   deploy_test:
     needs: build
-    runs-on: ubuntu-latest
 
-    steps:
-      - uses: ./.github/workflows/reusable-deploy.yml
-        with:
-          environment: 'test'
-          app-name: ${{ vars.APP_NAME }}
-          package-path: ${{env.PACKAGE_NAME}}
+    uses: ./.github/workflows/reusable-deploy.yml
+    with:
+      environment: 'test'
+      app-name: ${{ vars.APP_NAME }}
+      package-path: ${{env.PACKAGE_NAME}}
 
   deploy_prod:
     needs: 
       - build
       - deploy_test
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: ./.github/workflows/reusable-deploy.yml
-        with:
-          environment: 'prod'
-          app-name: ${{ vars.APP_NAME }}
-          package-path: ${{env.PACKAGE_NAME}}
+    
+    uses: ./.github/workflows/reusable-deploy.yml
+    with:
+      environment: 'prod'
+      app-name: ${{ vars.APP_NAME }}
+      package-path: ${{env.PACKAGE_NAME}}
 
 
 
