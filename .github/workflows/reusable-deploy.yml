@@ -20,8 +20,6 @@ on:
         description: 'The Azure publish profile'
         required: true
 
-
-    
 jobs:
   deploy:
 
