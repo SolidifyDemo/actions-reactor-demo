@@ -7,6 +7,8 @@ on:
   pull_request:
     branches:
       - main
+      - 'releases/**'
+
 
 env:
   AZURE_WEBAPP_NAME: actions-demo    # set this to your application's name

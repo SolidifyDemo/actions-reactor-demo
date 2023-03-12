@@ -26,4 +26,4 @@
   * TEST
     * SLOT_NAME = test
   * PROD
-    * SLOT_NAME = prod
+    * SLOT_NAME = production
