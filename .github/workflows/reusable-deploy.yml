@@ -25,7 +25,7 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
-      AZURE_APP_NAME: ${{ inputs.app-name }}
+      AZURE_APP_NAME: ${{ vars.APP_NAME }}
 
     environment: 
       name: ${{ inputs.environment }}
@@ -34,7 +34,7 @@ jobs:
       
       - name: Echo environment vars
         run: |
-         echo "app name  ${{ vars.APP_NAME}}"
+         echo "app name  ${{ vars.APP_NAME }}"
          echo "env ${{ inputs.environment }}"
      
       - name: Download from artifacts
@@ -48,7 +48,7 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           slot-name: ${{ inputs.environment }}
-          app-name: ${{ inputs.app-name }}
+          app-name: ${{ env.AZURE_APP_NAME }}
           publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
           package: ${{ inputs.package-path }}
 
