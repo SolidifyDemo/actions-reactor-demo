@@ -21,7 +21,7 @@ jobs:
     defaults:
       run:
         working-directory: ${{env.APP_PATH}}
-        
+
     outputs:
         package_name: ${{ steps.pass-outputs.outputs.package_name }}
     
@@ -84,7 +84,7 @@ jobs:
     uses: ./.github/workflows/reusable-deploy.yml
     with:
       environment: 'test'
-      package-path: ${{ needs.build.pass-outputs.outputs.package_name }}
+      package-path: ${{ needs.build.outputs.package_name }}
     secrets: inherit
 
 
