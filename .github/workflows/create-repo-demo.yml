@@ -93,7 +93,7 @@ jobs:
         with:
           script: |
             const repoName = '${{ needs.prepare.outputs.repository }}-${{ needs.prepare.outputs.repoType}}'
-            const body = `👋 Repository: [${repoName}](${context.payload.owner.html_url}/${repoName}) has been created!`
+            const body = `👋 Repository: [${repoName}](${context.payload.repository.owner.html_url}/${repoName}) has been created!`
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
