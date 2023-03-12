@@ -51,10 +51,11 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     steps:
+    
       - uses: actions/checkout@v2
 
-      - name: Download a artifact
-        uses: actions/download-arctifcat@v3
+      - name: Download migration archive from artifacts
+        uses: actions/download-artifact@v2
         with:
           name: ${{env.PACKAGE_NAME}}
           
