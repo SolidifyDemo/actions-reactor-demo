@@ -92,12 +92,15 @@ jobs:
         uses: actions/github-script@v6
         with:
           script: |
+            const repoName = '${{ needs.prepare.outputs.repository }}-${{ needs.prepare.outputs.repoType}}'
+            const body = `👋 Repository: [${repoName}](${context.payload.owner.html_url}/${repoName}) has been created!`
             github.rest.issues.createComment({
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              body: '👋 Repository: `[${{ needs.prepare.outputs.repository }}-${{ needs.prepare.outputs.repository}}](${context.payload.owner.html_url}/${{ needs.prepare.outputs.repository }}-${{ needs.prepare.outputs.repository}})` has been created! '
+              body: body
             })
+            
              github.rest.issues.update({
               issue_number: context.issue.number,
               owner: context.repo.owner,
