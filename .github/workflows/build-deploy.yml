@@ -82,8 +82,8 @@ jobs:
     with:
       environment: 'test'
       package-path: ${{needs.build.outputs.package_name }}
-    secrets:
-      AZURE_PUBLISH_PROFILE: ${{ secrets.AZURE_PUBLISH_PROFILE }}
+    secrets: inherit
+
 
   deploy_prod:
     needs: 
@@ -94,8 +94,8 @@ jobs:
     with:
       environment: 'prod'
       package-path: ${{needs.build.outputs.package_name }}
-    secrets:
-      AZURE_PUBLISH_PROFILE: ${{ secrets.AZURE_PUBLISH_PROFILE }}
+    secrets: inherit
+ 
 
 
 

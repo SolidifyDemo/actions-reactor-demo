@@ -18,7 +18,7 @@ on:
     secrets:
       AZURE_PUBLISH_PROFILE:
         description: 'The Azure publish profile'
-        required: false
+        required: true
 
 jobs:
   deploy:
