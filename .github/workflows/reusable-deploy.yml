@@ -24,15 +24,16 @@ jobs:
     runs-on: ubuntu-latest
     env:
       AZURE_APP_NAME: ${{ inputs.app-name }}
-      
+
     environment: ${ { inputs.environment } }
 
     steps:
       
       - name: Echo environment vars
         run: echo "app name  ${{ vars.APP_NAME}}"
-      - name: Download a artifact
-        uses: actions/download-arctifcat@v3
+     
+      - name: Download from artifacts
+        uses: actions/download-artifact@v2
         with:
           name: ${{ inputs.package-path }}
           path: ${{ inputs.package-path }}
