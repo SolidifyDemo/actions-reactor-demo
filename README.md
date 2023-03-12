@@ -1,8 +1,29 @@
 # actions-reactor-sample
 
-# create app 
+## create app 
 
-dotnet new mvc --name actions-demo
+`dotnet new mvc --name actions-demo`
 
-# reusable workflow
-# - uses: SolidifyDemo/reusable-workflows/blob/main/.github/workflows/dotnet-reusable-ci.yml@main
+
+## Create environments
+
+* test
+* prod
+
+## Variables and secrets
+### SECRETS
+* Repository secrets
+  * AZURE_PUBLISH_PROFILE - PROD PUBLISH PROFILe
+* TEST
+  * AZURE_PUBLISH_PROFILE - Test slot publish profile
+
+### Variables
+
+* Repository leve:
+  * APP_NAME = actions-demo
+
+* Environment level:
+  * TEST
+    * SLOT_NAME = test
+  * PROD
+    * SLOT_NAME = prod

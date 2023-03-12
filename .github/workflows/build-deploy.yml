@@ -52,10 +52,10 @@ jobs:
           path: ${{env.APP_PATH}}/${{env.PACKAGE_NAME}}
           if-no-files-found: error
           
-      - name: Pass outputs for reusable workflow_call
-        id: pass-outputs
-        run: |
-          echo "package_name=${{ env.PACKAGE_NAME }}" >> GITHUBT_OUTPUTS
+      # - name: Pass outputs for reusable workflow_call
+      #   id: pass-outputs
+      #   run: |
+      #     echo "package_name=${{ env.PACKAGE_NAME }}" >> GITHUBT_OUTPUTS
 
   # publish:
   #   needs: build
@@ -96,7 +96,7 @@ jobs:
     uses: ./.github/workflows/reusable-deploy.yml
     with:
       environment: 'prod'
-      package-path: ${{needs.build.outputs.package_name }}
+      package-path: ${{ needs.build.outputs.package_name }}
     secrets: inherit
  
 
