@@ -49,48 +49,50 @@ jobs:
           path: ${{env.APP_PATH}}/${{env.PACKAGE_NAME}}
           if-no-files-found: error
 
-  publish:
+  # publish:
+  #   needs: build
+  #   runs-on: ubuntu-latest
+  #   steps:
+
+  #     - uses: actions/checkout@v2
+
+  #     - name: Download from artifacts
+  #       uses: actions/download-artifact@v2
+  #       with:
+  #         name: ${{env.PACKAGE_NAME}}
+  #         path: ${{env.PACKAGE_NAME}}
+          
+  #     - name: Azure Web App Deploy
+  #       uses: azure/webapps-deploy@v2
+  #       with:
+  #         app-name: ${{ env.AZURE_WEBAPP_NAME }}
+  #         publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
+  #         package: ${{env.PACKAGE_NAME}}
+
+
+  deploy_test:
     needs: build
     runs-on: ubuntu-latest
+
     steps:
-
-      - uses: actions/checkout@v2
-
-      - name: Download from artifacts
-        uses: actions/download-artifact@v2
+      - uses: ./github/workflows/reusable-deploy.yml
         with:
-          name: ${{env.PACKAGE_NAME}}
-          path: ${{env.PACKAGE_NAME}}
-          
-      - name: Azure Web App Deploy
-        uses: azure/webapps-deploy@v2
+          environment: 'test'
+          app-name: ${{ vars.APP_NAME }}
+          package-path: ${{env.PACKAGE_NAME}}
+
+  deploy_prod:
+    needs: 
+      - build
+      - deploy_test
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: ./github/workflows/reusable-deploy.yml
         with:
-          app-name: ${{ env.AZURE_WEBAPP_NAME }}
-          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
-          package: ${{env.PACKAGE_NAME}}
-
-
-  # deploy_test:
-  #   needs: build
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #     - uses: ./github/workflows/reusable-deploy.yml
-  #       with:
-  #         environment: 'test'
-  #         app-name: ${{ vars.AZURE_WEBAPP_NAME }}
-  #         package-path: ${{env.PACKAGE_NAME}}.zip
-
-  # deploy_prod:
-  #   needs: build
-  #   runs-on: ubuntu-latest
-
-  #   steps:
-  #     - uses: ./github/workflows/reusable-deploy.yml
-  #       with:
-  #         environment: 'prod'
-  #         app-name: ${{ vars.AZURE_WEBAPP_NAME }}
-  #         package-path: ${{env.PACKAGE_NAME}}.zip
+          environment: 'prod'
+          app-name: ${{ vars.APP_NAME }}
+          package-path: ${{env.PACKAGE_NAME}}
 
 
 

@@ -9,26 +9,31 @@ on:
         type: string
       app-name:
         description: 'The name of the app to deploy'
-        required: true
+        required: false
         type: string
       package-path:
         description: 'The path to the package to deploy'
         required: true
         type: string
 
-
+env:
+  AZURE_WEBAPP_NAME: ${{ vars.APP_NAME}}
     
 jobs:
+  
   deploy:
     runs-on: ubuntu-latest
     environment: ${ { inputs.environment } }
+    
     steps:
       
+      - name: Echo environment vars
+        run: echo "app name  ${{ vars.APP_NAME}}"
       - name: Download a artifact
         uses: actions/download-arctifcat@v3
         with:
-          name: webapp
-
+          name: ${{ inputs.package-path }}
+          path: ${{ inputs.package-path }}
 
       - name: Azure Web App Deploy
         uses: azure/webapps-deploy@v2
