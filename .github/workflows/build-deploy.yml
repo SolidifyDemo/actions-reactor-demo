@@ -41,19 +41,12 @@ jobs:
       - name: Package
         run:  dotnet publish -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/${{env.PACKAGE_NAME}}' 
 
-      - name: Zip the webapp folder
-        run: zip -r ${{env.PACKAGE_NAME}}.zip ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/${{env.PACKAGE_NAME}}
-      
-      - name: print out  root directory
-        run: |
-          pwd
-          ls -R ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-
+        
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v3.1.1
         with:
-          name: ${{env.PACKAGE_NAME}}.zip
-          path: ${{env.APP_PATH}}/${{env.PACKAGE_NAME}}.zip
+          name: ${{env.PACKAGE_NAME}}
+          path: ${{env.APP_PATH}}/${{env.PACKAGE_NAME}}
           if-no-files-found: error
 
   publish:
@@ -66,17 +59,18 @@ jobs:
       - name: Download from artifacts
         uses: actions/download-artifact@v2
         with:
-          name: ${{env.PACKAGE_NAME}}.zip
+          name: ${{env.PACKAGE_NAME}}
+          path: ${{env.PACKAGE_NAME}}
           
       - name: Azure Web App Deploy
         uses: azure/webapps-deploy@v2
         with:
           app-name: ${{ env.AZURE_WEBAPP_NAME }}
           publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
-          package: ${{env.PACKAGE_NAME}}.zip
+          package: ${{env.PACKAGE_NAME}}
 
 
-  # publish-test:
+  # deploy_test:
   #   needs: build
   #   runs-on: ubuntu-latest
 
@@ -85,9 +79,9 @@ jobs:
   #       with:
   #         environment: 'test'
   #         app-name: ${{ vars.AZURE_WEBAPP_NAME }}
-  #         package-path: ${{env.PACKAGE_NAME}}
+  #         package-path: ${{env.PACKAGE_NAME}}.zip
 
-  # publish-prod:
+  # deploy_prod:
   #   needs: build
   #   runs-on: ubuntu-latest
 
@@ -96,7 +90,7 @@ jobs:
   #       with:
   #         environment: 'prod'
   #         app-name: ${{ vars.AZURE_WEBAPP_NAME }}
-  #         package-path: ${{env.PACKAGE_NAME}}
+  #         package-path: ${{env.PACKAGE_NAME}}.zip
 
 
 
