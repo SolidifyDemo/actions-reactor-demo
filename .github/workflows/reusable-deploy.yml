@@ -7,10 +7,6 @@ on:
         description: 'The environment to deploy to'
         required: true
         type: string
-      app-name:
-        description: 'The name of the app to deploy'
-        required: false
-        type: string
       package-path:
         description: 'The path to the package to deploy'
         required: true
@@ -33,7 +29,7 @@ jobs:
         run: |
          echo "app name  ${{ vars.APP_NAME }}"
          echo "env ${{ inputs.environment }}"
-         echo "packagepath ${{ inputs.package-path  }}"
+         echo "packagepath ${{ inputs.package-path }}"
      
       - name: Download from artifacts
         uses: actions/download-artifact@v2
@@ -41,6 +37,9 @@ jobs:
           name: ${{ inputs.package-path }}
           path: ${{ inputs.package-path }}
 
+
+      - name: print dir
+        run: ls -la
 
       - name: Azure Web App Deploy
         uses: azure/webapps-deploy@v2
