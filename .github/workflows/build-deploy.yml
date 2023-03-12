@@ -81,7 +81,7 @@ jobs:
     uses: ./.github/workflows/reusable-deploy.yml
     with:
       environment: 'test'
-      package-path: ${{needs.build.outputs.package_name }}
+      package-path: ${{ needs.build.pass-outputs.outputs.package_name }}
     secrets: inherit
 
 
