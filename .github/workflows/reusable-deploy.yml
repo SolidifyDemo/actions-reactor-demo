@@ -1,0 +1,41 @@
+name: Action training demo
+
+on:
+  workflow_call:
+    inputs: 
+      environment:
+        description: 'The environment to deploy to'
+        required: true
+        type: string
+      app-name:
+        description: 'The name of the app to deploy'
+        required: true
+        type: string
+      package-path:
+        description: 'The path to the package to deploy'
+        required: true
+        type: string
+
+
+    
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${ { inputs.environment } }
+    steps:
+      
+      - name: Download a artifact
+        uses: actions/download-arctifcat@v3
+        with:
+          name: webapp
+
+      - name: Azure Web App Deploy
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ inputs.app-name }}
+          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
+          package: ${{ inputs.package-path }}
+
+
+
+
