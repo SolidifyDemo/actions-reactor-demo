@@ -23,7 +23,7 @@ jobs:
         working-directory: ${{env.APP_PATH}}
 
     outputs:
-        package_name: ${{ steps.pass-outputs.outputs.package_name }}
+        package_name: ${{ env.PACKAGE_NAME }}
     
     steps:
       - uses: actions/checkout@v3
