@@ -20,10 +20,11 @@ on:
     
 jobs:
   deploy:
-    env:
-      AZURE_APP_NAME: ${{ inputs.app-name }}
 
     runs-on: ubuntu-latest
+    env:
+      AZURE_APP_NAME: ${{ inputs.app-name }}
+      
     environment: ${ { inputs.environment } }
 
     steps:
