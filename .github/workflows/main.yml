@@ -1,0 +1,82 @@
+name: Build and Publish
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+      - 'releases/**'
+
+env:
+  AZURE_WEBAPP_NAME: actions-demo    # set this to your application's name
+  AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
+  PACKAGE_NAME: 'webapp'          # set this to the name of the zipped package
+  APP_PATH: './actions-demo'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ${{env.APP_PATH}}
+
+    outputs:
+        package_name: ${{ env.PACKAGE_NAME }}
+    
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 7.0.x
+
+      - name: Restore dependencies
+        run: dotnet restore
+
+      - name: Build
+        run: dotnet build --no-restore
+
+      - name: Test
+        run: dotnet test --no-build --verbosity normal
+
+      - name: Package
+        run:  dotnet publish -c Release -o '${{ env.AZURE_WEBAPP_PACKAGE_PATH }}/${{env.PACKAGE_NAME}}' 
+
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v3.1.1
+        with:
+          name: ${{env.PACKAGE_NAME}}
+          path: ${{env.APP_PATH}}/${{env.PACKAGE_NAME}}
+          if-no-files-found: error
+          
+
+  publish:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v3
+
+      - name: Download from artifacts
+        uses: actions/download-artifact@v2
+        with:
+          name: ${{env.PACKAGE_NAME}}
+          path: ${{env.PACKAGE_NAME}}
+          
+      - name: Azure Web App Deploy
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
+          package: ${{env.PACKAGE_NAME}}
+
+
+
+
+
+
+        
+
+  
