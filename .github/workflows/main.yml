@@ -54,13 +54,25 @@ jobs:
           path: ${{env.APP_PATH}}/${{env.PACKAGE_NAME}}
           if-no-files-found: error
           
-      
+
+  deploy_test:
+    needs: build
+
+    uses: ./.github/workflows/reusable-deploy.yml
+    with:
+      environment: 'test'
+      package-path: ${{ needs.build.outputs.package_name }}
+    secrets: inherit
+
+
   deploy_prod:
     needs: 
       - build
+      - deploy_test
     
     uses: ./.github/workflows/reusable-deploy.yml
     with:
+      environment: 'prod'
       package-path: ${{ needs.build.outputs.package_name }}
     secrets: inherit
  

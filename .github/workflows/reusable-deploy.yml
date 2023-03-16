@@ -3,6 +3,10 @@ name: Action training demo
 on:
   workflow_call:
     inputs: 
+      environment:
+        description: 'The environment to deploy to'
+        required: true
+        type: string
       package-path:
         description: 'The path to the package to deploy'
         required: true
@@ -14,13 +18,17 @@ jobs:
 
     runs-on: ubuntu-latest
     env:
-      AZURE_APP_NAME: actions-demo
+      AZURE_APP_NAME: ${{ vars.APP_NAME }}
+
+    environment: 
+      name: ${{ inputs.environment }}
 
     steps:
       
       - name: Echo environment vars
         run: |
-         echo "app name  ${{ env.AZURE_APP_NAME }}"
+         echo "app name  ${{ vars.APP_NAME }}"
+         echo "env ${{ inputs.environment }}"
          echo "packagepath ${{ inputs.package-path }}"
      
       - name: Download from artifacts
@@ -36,7 +44,11 @@ jobs:
       - name: Azure Web App Deploy
         uses: azure/webapps-deploy@v2
         with:
+          slot-name: ${{ vars.SLOT_NAME }}
           app-name: ${{ env.AZURE_APP_NAME }}
           publish-profile: ${{ secrets.AZURE_PUBLISH_PROFILE }}
           package: ${{ inputs.package-path }}
+
+
+
 
