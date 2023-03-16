@@ -1,0 +1,19 @@
+name: Request repository creation
+description: Create a repository
+title: "Request repository creation"
+labels: [create-repo]
+body:
+  - type: "input"
+    attributes:
+      label: ">>Repository-name<<"
+      description: "Requested repository name"
+      placeholder: "my-appliction"
+    validations:
+      required: true
+  - type: "input"
+    attributes:
+      label: ">>Repository-type<<"
+      description: "Requested repository type eg: dotnet, javascript, java"
+      placeholder: "dotnet"
+    validations:
+      required: true    
