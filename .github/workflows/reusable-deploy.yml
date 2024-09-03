@@ -32,7 +32,7 @@ jobs:
          echo "packagepath ${{ inputs.package-path }}"
      
       - name: Download from artifacts
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4.1.7
         with:
           name: ${{ inputs.package-path }}
           path: ${{ inputs.package-path }}
